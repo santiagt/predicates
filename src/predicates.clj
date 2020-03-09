@@ -26,18 +26,21 @@
     (check string)))
 
 (defn has-award? [book award]
-  (let [book-awd-check (fn [b a] (filter (key->predicate :awards) b))]
-    (book-awd-check book award)))
+  (contains? (:awards book) award))
 
 (defn HAS-ALL-THE-AWARDS? [book awards]
-  :-)
+  (every? (fn [award] (has-award? book award)) awards))
 
 (defn my-some [pred a-seq]
-  :-)
+  (let [check (first (map pred (filter pred a-seq)))]
+    (cond (nil? check) false
+          (true? check) true
+          :else check)))
 
 (defn my-every? [pred a-seq]
-  :-)
+  (empty? (filter #(not (pred %)) a-seq)))
 
 (defn prime? [n]
-  :-)
+  (let [pred (fn [x] (= (rem n x) 0))]
+    (not (some pred (range 2 n)))))
 ;^^
